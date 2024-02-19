@@ -16,8 +16,6 @@ const userSchema = mongoose.Schema({
   interests: [{ type: String }],
   biographie: { type: String, required: true },
   profilImg: { type: String },
-  imageList: [{ type: String }],
-  backgroundImage: { type: String },
 });
 
 userSchema.plugin(uniqueValidator);

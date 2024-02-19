@@ -3,10 +3,24 @@ const User = require("../models/user");
 const jwt = require("jsonwebtoken");
 
 exports.signup = (req, res, next) => {
+  
+  const information = JSON.parse(req.body.information);
+  const profil = JSON.parse(req.body.profil);
+  const interests = JSON.parse(req.body.interests);
+
   bcrypt
-    .hash(req.body.information.password, 10)
+    .hash(information.password, 10)
     .then((hash) => {
-      const user = new User({ ...req.body, "information.password": hash });
+      information.password = hash;
+      const user = new User({
+        information,
+        profil,
+        biographie: req.body.biographie,
+        interests,
+        profilImg: `${req.protocol}://${req.get("host")}/images/${
+          req.file.filename
+        }`,
+      });
       user
         .save()
         .then(() => res.status(201).json({ message: "User created !" }))
@@ -29,11 +43,10 @@ exports.login = (req, res, next) => {
           }
           res.status(200).json({
             userId: user._id,
-            token: jwt.sign(
-              { userId: user._id }, 
-              "RANDOM_TOKEN_SECRET",
-               { expiresIn: "24h"}
-            )});
+            token: jwt.sign({ userId: user._id }, "RANDOM_TOKEN_SECRET", {
+              expiresIn: "24h",
+            }),
+          });
         })
         .catch((error) => res.status(500).json({ error }));
     })

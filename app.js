@@ -1,10 +1,10 @@
 const express = require("express");
 const mongoose = require("mongoose");
-
 const userRoutes = require('./routes/user');
 const authRoutes = require('./routes/auth');
-
+const path = require('path');
 const app = express();
+const bodyParser = require('body-parser');
 
 mongoose
   .connect(
@@ -28,7 +28,8 @@ app.use((req, res, next) => {
   );
   next();
 });
-
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use('/images', express.static(path.join(__dirname, 'images')));
 app.use('/api/user', userRoutes);
 app.use('/api/auth', authRoutes);
 

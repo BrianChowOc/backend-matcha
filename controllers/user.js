@@ -4,15 +4,14 @@ exports.getAllUser = async (req, res, next) => {
   try {
     const users = await User.find();
 
-    const usersWithoutPassword = users.map(user => {
-      const userWithoutPassword = {...user._doc}
+    const usersWithoutPassword = users.map((user) => {
+      const userWithoutPassword = { ...user._doc };
       delete userWithoutPassword.information.password;
       return userWithoutPassword;
-    })
-    res.status(200).json(usersWithoutPassword)
-  }
-  catch {
-    res.status(500).json({ error })
+    });
+    res.status(200).json(usersWithoutPassword);
+  } catch {
+    res.status(500).json({ error });
   }
 };
 
@@ -22,7 +21,7 @@ exports.getOneUser = (req, res, next) => {
       if (!user) {
         return res.status(404).json({ error: "User not found" });
       }
-      const userWithoutPassword = {...user._doc}
+      const userWithoutPassword = { ...user._doc };
       delete userWithoutPassword.information.password;
       return res.status(200).json(user);
     })
@@ -40,4 +39,3 @@ exports.deleteUser = (req, res, next) => {
     .then(() => res.status(200).json({ message: "User deleted !" }))
     .catch((error) => res.status(400).json({ error }));
 };
-
