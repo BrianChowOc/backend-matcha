@@ -16,6 +16,13 @@ const userSchema = mongoose.Schema({
   interests: [{ type: String }],
   biographie: { type: String, required: true },
   profilImg: { type: String },
+  imageList: { 
+    picture1: {type: String },
+    picture2: {type: String },
+    picture3: {type: String },
+    picture4: {type: String },
+  },
+  backgroundImage: {type: String}
 });
 
 userSchema.plugin(uniqueValidator);
