@@ -17,4 +17,11 @@ const storage = multer.diskStorage({
   }
 });
 
-module.exports = multer({storage: storage}).single('profilImg');
+module.exports = multer({storage: storage}).fields([
+  { name: 'profilImg', maxCount: 1 },
+  { name: 'picture1', maxCount: 1 },
+  { name: 'picture2', maxCount: 1 },
+  { name: 'picture3', maxCount: 1 },
+  { name: 'picture4', maxCount: 1 },
+  { name: 'backgroundImage', maxCount: 1 }
+]);
